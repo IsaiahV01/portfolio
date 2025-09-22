@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .green-accent {
+            color: #10b981;
+        }
+        
+        .bg-green-accent {
+            background-color: #10b981;
+        }
+        
+        .border-green-accent {
+            border-color: #10b981;
+        }
+        
+        .roadmap-item:hover .roadmap-details {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .roadmap-details {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .download-notification {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            transition: right 0.5s ease;
+        }
+        
+        .download-notification.show {
+            right: 20px;
+        }
+        
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid rgba(16, 185, 129, 0.2);
+            border-top-color: #10b981;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+    
+    <!-- Download Notification -->
+    <div class="download-notification bg-white p-4 rounded-lg shadow-lg flex items-center" id="downloadNotification">
+        <i data-feather="download" class="green-accent mr-2"></i>
+        <span>Resume downloaded successfully!</span>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-semibold green-accent">Portfolio</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-gray-700 hover:text-green-500 transition">About</a>
+                    <a href="#roadmap" class="text-gray-700 hover:text-green-500 transition">Roadmap</a>
+                    <a href="#projects" class="text-gray-700 hover:text-green-500 transition">Projects</a>
+                    <a href="#contact" class="text-gray-700 hover:text-green-500 transition">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden bg-white" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-500">About</a>
+                <a href="#roadmap" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-500">Roadmap</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-500">Projects</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-500">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Hi, I'm <span class="green-accent">Alex</span></h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold mb-6">Full Stack Developer</h2>
+                    <p class="text-gray-600 mb-8 text-lg">
+                        I build exceptional digital experiences that are fast, accessible, and visually appealing. 
+                        With over 5 years of experience in web development, I specialize in creating responsive, 
+                        user-friendly applications using modern technologies.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#projects" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition">View Projects</a>
+                        <a href="#contact" class="border border-green-500 text-green-500 hover:bg-green-50 px-6 py-3 rounded-lg font-medium transition">Contact Me</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-green-100 flex items-center justify-center overflow-hidden">
+                            <img src="http://static.photos/technology/640x360/42" alt="Developer" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                                    <i data-feather="code" class="text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Currently working on</p>
+                                    <p class="text-xs text-gray-500">Portfolio Website</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">My Professional <span class="green-accent">Journey</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">A timeline of my career progression and key experiences</p>
+            </div>
+            
+            <div class="relative timeline">
+                <div class="space-y-8">
+                    <!-- Timeline Item 1 -->
+                    <div class="flex flex-col md:flex-row items-center" data-aos="fade-up">
+                        <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-sm roadmap-item">
+                                <h3 class="text-xl font-semibold mb-2 green-accent">Senior Developer</h3>
+                                <p class="text-gray-600 mb-2">Tech Solutions Inc. • 2021 - Present</p>
+                                <div class="roadmap-details">
+                                    <p class="text-gray-700">
+                                        Lead a team of 5 developers to build enterprise-level applications. 
+                                        Implemented CI/CD pipelines reducing deployment time by 40%. 
+                                        Introduced React best practices across the organization.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-1/2"></div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 -->
+                    <div class="flex flex-col md:flex-row items-center" data-aos="fade-up">
+                        <div class="hidden md:block md:w-1/2"></div>
+                        <div class="md:w-1/2 md:pl-8">
+                            <div class="bg-white p-6 rounded-lg shadow-sm roadmap-item">
+                                <h3 class="text-xl font-semibold mb-2 green-accent">Frontend Developer</h3>
+                                <p class="text-gray-600 mb-2">Digital Creations • 2019 - 2021</p>
+                                <div class="roadmap-details">
+                                    <p class="text-gray-700">
+                                        Developed responsive web applications using React and Vue.js. 
+                                        Improved page load performance by 30% through code optimization. 
+                                        Collaborated with designers to implement pixel-perfect UIs.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="flex flex-col md:flex-row items-center" data-aos="fade-up">
+                        <div class="md:w-1/2 md:pr-8 mb-6 md:mb-0 md:text-right">
+                            <div class="bg-white p-6 rounded-lg shadow-sm roadmap-item">
+                                <h3 class="text-xl font-semibold mb-2 green-accent">Junior Developer</h3>
+                                <p class="text-gray-600 mb-2">WebStart • 2017 - 2019</p>
+                                <div class="roadmap-details">
+                                    <p class="text-gray-700">
+                                        Built and maintained client websites using HTML, CSS, and JavaScript. 
+                                        Assisted in migrating legacy systems to modern frameworks. 
+                                        Gained experience with REST APIs and database management.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block md:w-1/2"></div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 -->
+                    <div class="flex flex-col md:flex-row items-center" data-aos="fade-up">
+                        <div class="hidden md:block md:w-1/2"></div>
+                        <div class="md:w-1/2 md:pl-8">
+                            <div class="bg-white p-6 rounded-lg shadow-sm roadmap-item">
+                                <h3 class="text-xl font-semibold mb-2 green-accent">Intern</h3>
+                                <div class="roadmap-details">
+                                    <p class="text-gray-600 mb-2">Code Academy • 2016 - 2017</p>
+                                    <p class="text-gray-700">
+                                        Learned fundamentals of web development. 
+                                        Completed projects using HTML, CSS, and JavaScript. 
+                                        Participated in code reviews and pair programming sessions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">Featured <span class="green-accent">Projects</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Some of my recent work and contributions</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="fade-up">
+                    <div class="h-48 bg-gray-100 overflow-hidden">
+                        <img src="http://static.photos/technology/640x360/1" alt="Project 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">E-Commerce Platform</h3>
+                        <p class="text-gray-600 mb-4">A full-featured online store with payment integration</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">React</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Node.js</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">MongoDB</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="github" class="mr-1"></i> Code
+                            </a>
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="external-link" class="mr-1"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gray-100 overflow-hidden">
+                        <img src="http://static.photos/technology/640x360/2" alt="Project 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Task Management App</h3>
+                        <p class="text-gray-600 mb-4">Collaborative tool for team productivity</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Vue.js</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Firebase</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Tailwind</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="github" class="mr-1"></i> Code
+                            </a>
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="external-link" class="mr-1"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gray-100 overflow-hidden">
+                        <img src="http://static.photos/technology/640x360/3" alt="Project 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Weather Dashboard</h3>
+                        <p class="text-gray-600 mb-4">Real-time weather data visualization</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">JavaScript</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">API</span>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Chart.js</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="github" class="mr-1"></i> Code
+                            </a>
+                            <a href="#" class="text-green-500 hover:text-green-600 flex items-center">
+                                <i data-feather="external-link" class="mr-1"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center" data-aos="fade-up">
+                <h3 class="text-xl font-semibold mb-6">Connect with me on</h3>
+                <div class="flex justify-center space-x-6">
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                        <i data-feather="github" class="text-gray-700"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                        <i data-feather="linkedin" class="text-gray-700"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                        <i data-feather="twitter" class="text-gray-700"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                        <i data-feather="mail" class="text-gray-700"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact & Resume Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">Get In <span class="green-accent">Touch</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Feel free to reach out for collaborations or just a friendly hello</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2" data-aos="fade-right">
+                    <div class="bg-white p-8 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                    <i data-feather="mail" class="text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Email</p>
+                                    <p class="font-medium">hello@example.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                    <i data-feather="phone" class="text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Phone</p>
+                                    <p class="font-medium">(123) 456-7890</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                    <i data-feather="map-pin" class="text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Location</p>
+                                    <p class="font-medium">San Francisco, CA</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-lg font-medium mb-4">Also find me on</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                                    <i data-feather="linkedin" class="text-gray-700"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                                    <i data-feather="github" class="text-gray-700"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                                    <i data-feather="twitter" class="text-gray-700"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <div class="bg-white p-8 rounded-lg shadow-sm h-full">
+                        <h3 class="text-xl font-semibold mb-6">My Resume</h3>
+                        
+                        <div class="border border-gray-200 rounded-lg p-6 mb-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                    <i data-feather="file-text" class="text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Alex Developer - Resume 2023</h4>
+                                    <p class="text-sm text-gray-500 mb-3">PDF • 1.2 MB</p>
+                                    <div class="flex space-x-2">
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Frontend</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Backend</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Full Stack</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-6">
+                            Download my resume to learn more about my skills, experience, and education background.
+                        </p>
+                        
+                        <button id="downloadResume" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
+                            <i data-feather="download" class="mr-2"></i> Download Resume
+                        </button>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-lg font-medium mb-4">Other platforms</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <a href="#" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
+                                    <i data-feather="briefcase" class="mr-2"></i> Indeed
+                                </a>
+                                <a href="#" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
+                                    <i data-feather="user" class="mr-2"></i> ZipRecruiter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-xl font-semibold green-accent">Portfolio</span>
+                    <p class="text-gray-400 mt-2">Building digital experiences that matter</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#about" class="text-gray-400 hover:text-white transition">About</a>
+                    <a href="#roadmap" class="text-gray-400 hover:text-white transition">Roadmap</a>
+                    <a href="#projects" class="text-gray-400 hover:text-white transition">Projects</a>
+                    <a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2023 Developer Portfolio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize animations and icons
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        feather.replace();
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Download resume animation
+        document.getElementById('downloadResume').addEventListener('click', function() {
+            const notification = document.getElementById('downloadNotification');
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+            
+            // Here you would typically trigger an actual download
+            // For demo purposes, we're just showing the notification
+        });
+        
+        // Loader animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500); // Simulate loading time
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
