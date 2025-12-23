@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <span class="text-xl font-semibold green-accent">Portfolio</span>
+          <span class="text-xl pr-1">Isaiah</span><span class="text-xl font-semibold green-accent">Velarde</span>
         </div>
         <div class="hidden md:flex items-center space-x-8">
           <a href="#about" class="text-gray-700 hover:text-green-500 transition" @click.prevent="scrollTo('about')">About</a>
