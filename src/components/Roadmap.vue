@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16" data-aos="fade-up">
         <h2 class="text-3xl md:text-4xl font-bold mb-4">My Journey</h2>
-        <p class="text-gray-600 text-lg">From learning the fundamentals to building real-world projects — here's how my journey in web development continues to grow.</p>
+        <p class="text-gray-600 text-lg">From learning the fundamentals to building real-world projects; Here's how my journey in web development continues to grow!</p>
       </div>
       
       <div class="relative timeline">
@@ -48,7 +48,7 @@ export default {
       roadmapItems: [
         {
           year: '2025',
-          title: 'Next Step — Expanding and Growing Professionally',
+          title: 'Next Step: Expanding and Growing Professionally',
           description: 'Continuing to refine my freelance work while pursuing opportunities to join a forward-thinking team. Focused on   deepening my frontend and UX expertise to build seamless, high-performing digital experiences.',
           technologies: ['Vue 3', 'React', 'UI/UX Design', 'Web Performance', 'Design Systems'],
           icon: 'fas fa-rocket'
@@ -64,7 +64,7 @@ export default {
           year: '2024',
           title: 'Information Systems AAS Degree',
           description: 'Graduated specializing in web technologies and user experience design.',
-          technologies: ['Web Dev', 'Design', 'PC Hardware / Software', 'Adobe Creative Clouds'],
+          technologies: ['Web Developement', ' Web Design', 'PC Hardware / Software', 'Adobe Creative Clouds'],
           icon: 'fas fa-graduation-cap'
         },
         {
