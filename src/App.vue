@@ -4,7 +4,7 @@
     <Loader v-if="isLoading" />
     
     <!-- Download Notification -->
-    <DownloadNotification :show="showNotification" />
+    <DownloadNotification :show="showNotification" :type="notificationType" />
     
     <!-- Navigation -->
     <Navigation />
@@ -19,7 +19,10 @@
     <Projects />
     
     <!-- Contact Section -->
-    <Contact @download-resume="handleDownload" />
+    <Contact 
+      @download-resume="handleDownloadSuccess" 
+      @download-error="handleDownloadError"
+    />
     
     <!-- Footer -->
     <Footer />
@@ -52,6 +55,7 @@ export default {
   setup() {
     const isLoading = ref(true)
     const showNotification = ref(false)
+    const notificationType = ref('success')
 
     onMounted(() => {
       setTimeout(() => {
@@ -59,17 +63,28 @@ export default {
       }, 1500)
     })
 
-    const handleDownload = () => {
+    const handleDownloadSuccess = () => {
+      notificationType.value = 'success'
       showNotification.value = true
       setTimeout(() => {
         showNotification.value = false
-      }, 3000)
+      }, 4000)
+    }
+
+    const handleDownloadError = () => {
+      notificationType.value = 'error'
+      showNotification.value = true
+      setTimeout(() => {
+        showNotification.value = false
+      }, 5000)
     }
 
     return {
       isLoading,
       showNotification,
-      handleDownload
+      notificationType,
+      handleDownloadSuccess,
+      handleDownloadError
     }
   }
 }
@@ -121,13 +136,5 @@ export default {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
-}
-
-:root {
-  /* Solid green for all particles - no gradient! */
-  --color-1: #22c55e;
-  --color-2: #22c55e;
-  --color-3: #22c55e;
-  --color-4: #22c55e;
 }
 </style>

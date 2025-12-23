@@ -18,7 +18,9 @@
                 </div>
                 <div>
                   <p class="text-sm text-gray-500">Email</p>
-                  <p class="font-medium">isaiah.velarde01@gmail.com</p>
+                  <a href="mailto:isaiah.velarde01@gmail.com" class="font-medium hover:text-green-500 transition">
+                    isaiah.velarde01@gmail.com
+                  </a>
                 </div>
               </div>
               
@@ -28,7 +30,9 @@
                 </div>
                 <div>
                   <p class="text-sm text-gray-500">Phone</p>
-                  <p class="font-medium">(507) 581-4117</p>
+                  <a href="tel:+15075814117" class="font-medium hover:text-green-500 transition">
+                    (507) 581-4117
+                  </a>
                 </div>
               </div>
               
@@ -46,10 +50,10 @@
             <div class="mt-8">
               <h4 class="text-lg font-medium mb-4">Also find me on</h4>
               <div class="flex space-x-4">
-                <a href="https://www.linkedin.com/in/isaiah-velarde-4656a530a/" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                <a href="https://www.linkedin.com/in/isaiah-velarde-4656a530a/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
                   <i class="fab fa-linkedin text-gray-700"></i>
                 </a>
-                <a href="https://github.com/IsaiahV01" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
+                <a href="https://github.com/IsaiahV01" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-green-100 transition">
                   <i class="fab fa-github text-gray-700"></i>
                 </a>
               </div>
@@ -67,12 +71,12 @@
                   <i class="fas fa-file-alt text-green-500"></i>
                 </div>
                 <div>
-                  <h4 class="font-medium mb-1">Isaiah Developer - Resume 2025</h4>
+                  <h4 class="font-medium mb-1">Isaiah Velarde - Resume 2025</h4>
                   <p class="text-sm text-gray-500 mb-3">PDF • 72 KB</p>
                   <div class="flex space-x-2">
                     <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Frontend</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">UX</span>
-                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">UI</span>
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">UX/UI</span>
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Vue.js</span>
                   </div>
                 </div>
               </div>
@@ -82,17 +86,19 @@
               Download my resume to learn more about my skills, experience, and education background.
             </p>
             
-            <button @click="downloadResume" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
-              <i class="fas fa-download mr-2"></i> Download Resume
+            <button @click="downloadResume" :disabled="isDownloading" class="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
+              <i v-if="!isDownloading" class="fas fa-download mr-2"></i>
+              <i v-else class="fas fa-spinner fa-spin mr-2"></i>
+              {{ isDownloading ? 'Downloading...' : 'Download Resume' }}
             </button>
             
             <div class="mt-8">
               <h4 class="text-lg font-medium mb-4">Other platforms</h4>
               <div class="grid grid-cols-2 gap-4">
-                <a href="https://profile.indeed.com/p/isaiahv-u5rk98q" target="_blank" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
+                <a href="https://profile.indeed.com/p/isaiahv-u5rk98q" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
                   <i class="fas fa-briefcase mr-2"></i> Indeed
                 </a>
-                <a href="https://www.linkedin.com/in/isaiah-velarde-4656a530a/" target="_blank" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
+                <a href="https://www.linkedin.com/in/isaiah-velarde-4656a530a/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 py-3 px-4 rounded-lg transition">
                   <i class="fab fa-linkedin mr-2"></i> LinkedIn
                 </a>
               </div>
@@ -107,17 +113,49 @@
 <script>
 export default {
   name: 'Contact',
-  emits: ['download-resume'],
+  emits: ['download-resume', 'download-error'],
+  data() {
+    return {
+      isDownloading: false
+    }
+  },
   methods: {
-    downloadResume() {
-      this.$emit('download-resume')
-      // Actually download the file
-      const link = document.createElement('a')
-      link.href = '/Isaiah_Velarde_Resume.pdf'
-      link.download = 'Isaiah_Velarde_Resume.pdf'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+    async downloadResume() {
+      this.isDownloading = true
+      
+      try {
+        // Use the correct path for GitHub Pages
+        // In dev: /Isaiah_Velarde_Resume.pdf
+        // In production: /portfolio/Isaiah_Velarde_Resume.pdf
+        const resumePath = import.meta.env.BASE_URL + 'Isaiah_Velarde_Resume.pdf'
+        
+        // First, check if the file exists
+        const response = await fetch(resumePath, { method: 'HEAD' })
+        
+        if (!response.ok) {
+          throw new Error('Resume file not found')
+        }
+        
+        // If file exists, download it
+        const link = document.createElement('a')
+        link.href = resumePath
+        link.download = 'Isaiah_Velarde_Resume.pdf'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        
+        // Wait a bit before showing success
+        setTimeout(() => {
+          this.isDownloading = false
+          this.$emit('download-resume')
+        }, 500)
+        
+      } catch (error) {
+        console.error('Download failed:', error)
+        this.isDownloading = false
+        this.$emit('download-error')
+        alert('Sorry, the resume file could not be downloaded. Please try again or contact me directly!')
+      }
     }
   }
 }
