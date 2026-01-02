@@ -47,7 +47,7 @@ export default {
     return {
       roadmapItems: [
         {
-          year: '2025',
+          year: '2026+',
           title: 'Next Step: Expanding and Growing Professionally',
           description: 'Continuing to refine my freelance work while pursuing opportunities to join a forward-thinking team. Focused on   deepening my frontend and UX expertise to build seamless, high-performing digital experiences.',
           technologies: ['Vue 3', 'React', 'UI/UX Design', 'Web Performance', 'Design Systems'],
