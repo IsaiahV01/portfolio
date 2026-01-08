@@ -98,7 +98,7 @@ export default {
         },
         {
           title: 'Portfolio Website',
-          description: 'Modern portfolio website built with Vue.js, featuring smooth animations, responsive design, and gooey navigation.',
+          description: 'Modern portfolio website built with Vue.js, featuring smooth animations, responsive design, and clean navigation.',
           technologies: ['Vue.js', 'Vite', 'Tailwind CSS', 'GitHub Pages'],
           icon: 'fas fa-briefcase',
           gradient: ['#06b6d4', '#22d3ee'],
