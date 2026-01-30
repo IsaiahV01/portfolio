@@ -60,7 +60,7 @@ export default {
     onMounted(() => {
       setTimeout(() => {
         isLoading.value = false
-      }, 1500)
+      }, 750)
     })
 
     const handleDownloadSuccess = () => {
